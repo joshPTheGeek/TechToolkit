@@ -66,29 +66,29 @@
   ];
 
   const winCommands = [
-    "`ipconfig /all` - show full network config",
-    "`ipconfig /flushdns` - clear DNS cache",
-    "`ping <host>` - test reachability/latency",
-    "`tracert <host>` - view route hops",
-    "`netstat -ano` - view active ports/process IDs",
-    "`nslookup <name>` - query DNS records",
-    "`sfc /scannow` - repair system files",
-    "`DISM /Online /Cleanup-Image /RestoreHealth` - repair component store",
-    "`Get-EventLog -LogName System -Newest 30` - recent system events",
-    "`Test-NetConnection <host> -Port <port>` - test TCP connectivity"
+    { cmd: "ipconfig /all", desc: "Show full network configuration." },
+    { cmd: "ipconfig /flushdns", desc: "Clear local DNS resolver cache." },
+    { cmd: "ping <host>", desc: "Test reachability and baseline latency." },
+    { cmd: "tracert <host>", desc: "Show route hops to destination." },
+    { cmd: "netstat -ano", desc: "List active sockets and process IDs." },
+    { cmd: "nslookup <name>", desc: "Query DNS records directly." },
+    { cmd: "sfc /scannow", desc: "Repair protected Windows system files." },
+    { cmd: "DISM /Online /Cleanup-Image /RestoreHealth", desc: "Repair Windows component store image." },
+    { cmd: "Get-EventLog -LogName System -Newest 30", desc: "Pull recent system events quickly." },
+    { cmd: "Test-NetConnection <host> -Port <port>", desc: "Validate TCP port connectivity." }
   ];
 
   const unixCommands = [
-    "`ifconfig` or `ip a` - list network interfaces",
-    "`ping -c 4 <host>` - test connectivity",
-    "`traceroute <host>` - route path",
-    "`nslookup <name>` or `dig <name>` - DNS lookup",
-    "`netstat -tulpn` or `ss -tulpn` - listening sockets",
-    "`top` or `htop` - process and resource view",
-    "`df -h` - disk space summary",
-    "`du -sh *` - folder size quick view",
-    "`tail -f /var/log/system.log` - live logs",
-    "`chmod/chown` - permissions and ownership management"
+    { cmd: "ifconfig  (or ip a)", desc: "List local interfaces and addresses." },
+    { cmd: "ping -c 4 <host>", desc: "Run quick reachability check." },
+    { cmd: "traceroute <host>", desc: "Trace path across routed hops." },
+    { cmd: "nslookup <name>  (or dig <name>)", desc: "Run DNS lookup with resolver visibility." },
+    { cmd: "netstat -tulpn  (or ss -tulpn)", desc: "Show listening sockets and owning services." },
+    { cmd: "top  (or htop)", desc: "View live CPU/memory process usage." },
+    { cmd: "df -h", desc: "Summarize filesystem free space." },
+    { cmd: "du -sh *", desc: "Show folder sizes in current path." },
+    { cmd: "tail -f /var/log/system.log", desc: "Follow system logs in real time." },
+    { cmd: "chmod/chown", desc: "Set file mode bits and ownership." }
   ];
 
   const osiLayers = [
@@ -146,11 +146,33 @@
       <div class="fundamentals-grid">
         <article class="category-card">
           <h3>Windows / PowerShell</h3>
-          <ul>${winCommands.map((line) => `<li>${line}</li>`).join("")}</ul>
+          <div class="command-grid">
+            ${winCommands
+              .map(
+                (item) => `
+                  <article class="command-card">
+                    <code>${item.cmd}</code>
+                    <p>${item.desc}</p>
+                  </article>
+                `
+              )
+              .join("")}
+          </div>
         </article>
         <article class="category-card">
           <h3>Linux / macOS</h3>
-          <ul>${unixCommands.map((line) => `<li>${line}</li>`).join("")}</ul>
+          <div class="command-grid">
+            ${unixCommands
+              .map(
+                (item) => `
+                  <article class="command-card">
+                    <code>${item.cmd}</code>
+                    <p>${item.desc}</p>
+                  </article>
+                `
+              )
+              .join("")}
+          </div>
         </article>
       </div>
     </section>
@@ -168,16 +190,6 @@
                   <button class="osi-diagram-layer" data-layer-index="${index}" type="button">
                     ${layer.name}
                   </button>
-                `
-              )
-              .join("")}
-          </div>
-          <p class="small-muted">Click a layer to reveal details.</p>
-          <div class="osi-layers">
-            ${osiLayers
-              .map(
-                (layer, index) => `
-                  <button class="osi-btn" data-layer-index="${index}" type="button">${layer.name}</button>
                 `
               )
               .join("")}
@@ -223,7 +235,6 @@
     });
   }
 
-  bindOsiButtons(".osi-btn");
   bindOsiButtons(".osi-diagram-layer");
 
   const cidrInput = document.getElementById("cidr-input");

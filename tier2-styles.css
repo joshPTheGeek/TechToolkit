@@ -412,6 +412,34 @@ textarea {
   background: linear-gradient(90deg, color-mix(in srgb, var(--accent-soft) 75%, transparent), var(--panel-strong));
 }
 
+.command-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.command-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--panel-strong) 85%, var(--accent-soft));
+}
+
+.command-card code {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.command-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
 .osi-layers {
   display: grid;
   gap: 8px;
